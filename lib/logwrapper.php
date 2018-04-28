@@ -1,6 +1,6 @@
 <?php
 
-function isDebug() { return (strncasecmp(PHP_OS, 'WIN', 3) == 0); }
+include "../config.php";
 
 function startsWith($haystack, $needle)
 {
@@ -12,8 +12,7 @@ function endsWith($haystack, $needle)
 {
 	$length = strlen($needle);
 
-	return $length === 0 ||
-		(substr($haystack, -$length) === $needle);
+	return $length === 0 || (substr($haystack, -$length) === $needle);
 }
 
 function entry_cmp($a, $b)
@@ -34,7 +33,7 @@ function listEntries()
 	}
 	else
 	{
-		$json = json_decode(exec('sudo simpleloglist list'));
+		$json = json_decode(shell_exec('sudo simpleloglist list'));
 	}
 
 	$i = 1000;
@@ -49,7 +48,7 @@ function readLogFile($path)
 		return file_get_contents('F:\Stash\aleph_test\A elementum molestie aenean litora primis.txt');
 	}
 
-	return exec('sudo simpleloglist read ' . escapeshellarg($path));
+	return shell_exec('sudo simpleloglist read ' . escapeshellarg($path));
 }
 
 function processentries($entries, &$i)

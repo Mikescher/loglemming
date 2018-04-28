@@ -1,8 +1,21 @@
 <!doctype html>
 
-<?php include "lib/sysinfo.php"; ?>
-<?php include "lib/logwrapper.php"; ?>
-<?php include "lib/util.php"; ?>
+<?php
+include "config.php";
+
+if (isDebug())
+{
+    ini_set('display_errors', 'On');
+	error_reporting(E_ALL);
+}
+
+include "lib/sysinfo.php";
+include "lib/logwrapper.php";
+include "lib/util.php";
+
+?>
+<?php  ?>
+<?php  ?>
 
 <?php
 
