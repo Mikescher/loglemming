@@ -3,7 +3,7 @@
 <?php
 include "config.php";
 
-if (isDebug())
+if (isPHPDebug())
 {
     ini_set('display_errors', 'On');
 	error_reporting(E_ALL);

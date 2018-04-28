@@ -27,7 +27,7 @@ function cmp_mdate($a, $b)
 
 function listEntries()
 {
-	if (isDebug())
+	if (isSLLDebug())
 	{
 		$json = json_decode(file_get_contents('F:\temp\simpleloglist_list.txt'), true);
 	}
@@ -42,7 +42,7 @@ function listEntries()
 
 function readLogFile($path)
 {
-	if (isDebug())
+	if (isSLLDebug())
 	{
 		sleep(2);
 		return file_get_contents('F:\Stash\aleph_test\A elementum molestie aenean litora primis.txt');

@@ -1,3 +1,4 @@
 <?php
 
-function isDebug() { return true; }
+function isPHPDebug() { return true; }
+function isSLLDebug() { return true; }
