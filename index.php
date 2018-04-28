@@ -1,7 +1,7 @@
 <!doctype html>
 
 <?php
-include "config.php";
+include_once __DIR__ . "/config.php";
 
 if (isPHPDebug())
 {
@@ -9,9 +9,9 @@ if (isPHPDebug())
 	error_reporting(E_ALL);
 }
 
-include "lib/sysinfo.php";
-include "lib/logwrapper.php";
-include "lib/util.php";
+include_once __DIR__ . "/lib/sysinfo.php";
+include_once __DIR__ . "/lib/logwrapper.php";
+include_once __DIR__ . "/lib/util.php";
 
 ?>
 <?php  ?>
@@ -136,22 +136,19 @@ include "lib/util.php";
 
 		<div class="infocontainer">
 			<div class="infodiv">
-				IP:&nbsp;<?php echo getIP(); ?>
+				IP:<br/><?php echo getIP(); ?>
 			</div>
 			<div class="infodiv">
-				OS:&nbsp;<?php echo getOperatingSystem(); ?>
+				OS:<br/><?php echo getOperatingSystem(); ?>
 			</div>
 			<div class="infodiv">
-				Kernel:&nbsp;<?php echo getKernel(); ?>
+				Uptime:<br/><?php echo getUptime(); ?>
 			</div>
 			<div class="infodiv">
-				Uptime:&nbsp;<?php echo getUptime(); ?>
+				Boot Time:<br/><?php echo getBootupTime(); ?>
 			</div>
 			<div class="infodiv">
-				Boot Time:&nbsp;<?php echo getBootupTime(); ?>
-			</div>
-			<div class="infodiv">
-				Space:&nbsp;<?php echo getDiskData(); ?>
+				Space:<br/><?php echo getDiskData(); ?>
 			</div>
 		</div>
 

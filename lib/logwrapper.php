@@ -1,6 +1,6 @@
 <?php
 
-include "../config.php";
+include_once __DIR__ . "/../config.php";
 
 function startsWith($haystack, $needle)
 {
@@ -33,7 +33,7 @@ function listEntries()
 	}
 	else
 	{
-		$json = json_decode(shell_exec('sudo simpleloglist list'));
+		$json = json_decode(shell_exec('sudo simpleloglist list'), true);
 	}
 
 	$i = 1000;

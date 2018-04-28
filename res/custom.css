@@ -212,7 +212,7 @@ h1 a:hover { color: blue; text-decoration: underline; }
 }
 
 #logviewcontent {
-    height: calc(100vh - 300px);
+    height: calc(100vh - 333px);
     overflow: auto;
 }
 
@@ -227,6 +227,6 @@ h1 a:hover { color: blue; text-decoration: underline; }
 }
 
 .logviewbox {
-        display: none;
+    display: none;
     visibility: collapse;
 }

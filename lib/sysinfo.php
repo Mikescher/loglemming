@@ -29,8 +29,8 @@ function getHumanTime($seconds)
 	$units = array(
 		'year'   => 365*86400,
 		'day'    => 86400,
-		'hour'   => 3600,
-		'minute' => 60,
+		'h'   => 3600,
+		'min' => 60,
 		// 'second' => 1,
 	);
 
@@ -55,7 +55,7 @@ function getHumanTime($seconds)
 	if (empty($parts))
 		return $last;
 	else
-		return join(', ', $parts).' and '.$last;
+		return join(', ', $parts).', '.$last;
 }
 
 function getKernel()
@@ -134,5 +134,5 @@ function getDiskData()
 		}
 	}
 
-	return fmtSize($sumfree * 1024) . ' / ' . fmtSize($sumtotal * 1024) . ' (' . (100 * $sumfree/$sumtotal) . '%)';
+	return fmtSize($sumfree * 1024) . ' / ' . fmtSize($sumtotal * 1024) . ' (' . round(100 * $sumfree/$sumtotal, 2) . '%)';
 }
