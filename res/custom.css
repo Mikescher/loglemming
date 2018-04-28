@@ -28,6 +28,7 @@
 h1 {
     font-size: 60px;
     text-align: center;
+    margin: 0 0 .32em 0;
 }
 
 h2 {
@@ -208,4 +209,24 @@ h1 a:hover { color: blue; text-decoration: underline; }
 .row_collapsed {
     visibility: collapse;
     display: none;
+}
+
+#logviewcontent {
+    height: calc(100vh - 300px);
+    overflow: auto;
+}
+
+#logviewcontent {
+    white-space: pre;
+    font-family: monospace;
+    word-wrap: break-word;
+    padding: .5em 1em;
+    border: 1px solid #888;
+    text-align: left;
+    overflow: auto;
+}
+
+.logviewbox {
+        display: none;
+    visibility: collapse;
 }

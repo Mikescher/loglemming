@@ -1,6 +1,6 @@
 <?php
 
-function printTableEntries($entries, $path, $indent)
+function printTableEntries($entries, $fpath, $path, $indent)
 {
 	foreach ($entries as $entry)
 	{
@@ -9,7 +9,7 @@ function printTableEntries($entries, $path, $indent)
 			$eparent = sizeof($path)==0 ? '' : $path[sizeof($path)-1];
 			$eid     = $entry['id'];
 			$class   = 'row_entry row_file row_id_' . $eid . ' ' . ($indent>0?'row_collapsed' : '');
-			$onclick = 'onFileClicked(' . $entry['id'] . ', \"' . $entry['name'] . '\");';
+			$onclick = 'onFileClicked(' . $entry['id'] . ', "' . $entry['name'] . '", "' . implode('/', array_merge($fpath, [$entry['files'][0]['name']])) . '", "' . implode('/', array_merge($fpath, [$entry['name']])) . '");';
 			$epath   = '[' . implode(', ', array_merge($path, [$eid])) . ']';
 
 			print("<tr class='$class' onclick='$onclick' data-epath='$epath' data-eid='$eid' data-eparent='$eparent'>");
@@ -44,7 +44,7 @@ function printTableEntries($entries, $path, $indent)
 			print('</tr>');
 			print("\n");
 
-			printTableEntries($entry['entries'], array_merge($path, [$entry['id']]), $indent+1);
+			printTableEntries($entry['entries'], array_merge($fpath, [$entry['name']]), array_merge($path, [$entry['id']]), $indent+1);
 		}
 	}
 }

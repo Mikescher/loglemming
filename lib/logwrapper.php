@@ -1,5 +1,7 @@
 <?php
 
+function isDebug() { return (strncasecmp(PHP_OS, 'WIN', 3) == 0); }
+
 function startsWith($haystack, $needle)
 {
 	$length = strlen($needle);
@@ -26,15 +28,28 @@ function cmp_mdate($a, $b)
 
 function listEntries()
 {
-	//$json = json_decode(exec('sudo simpleloglist list'));
-	$json = json_decode(file_get_contents('F:\temp\simpleloglist_list.txt'), true);
-
-	$entries = $json['entries'];
+	if (isDebug())
+	{
+		$json = json_decode(file_get_contents('F:\temp\simpleloglist_list.txt'), true);
+	}
+	else
+	{
+		$json = json_decode(exec('sudo simpleloglist list'));
+	}
 
 	$i = 1000;
+	return processentries($json['entries'], $i);
+}
 
-	return processentries($entries, $i);
+function readLogFile($path)
+{
+	if (isDebug())
+	{
+		sleep(2);
+		return file_get_contents('F:\Stash\aleph_test\A elementum molestie aenean litora primis.txt');
+	}
 
+	return exec('sudo simpleloglist read ' . escapeshellarg($path));
 }
 
 function processentries($entries, &$i)
@@ -139,4 +154,5 @@ function get_canonical_entryname($entry)
 		return $n;
 	}
 
+	return '?';
 }

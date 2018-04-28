@@ -54,61 +54,67 @@
                 let src    = $('.row_id_'+id);
                 let isopen = $(src).hasClass('row_open');
 
-                if (isopen) epath.pop();
 
-                for (let row of $(".row_entry"))
+                if (isopen)
                 {
-                    let row_eid   = parseInt($(row).attr('data-eid'));
-                    let row_epath = JSON.parse($(row).attr('data-epath'));
-                    let row_eprnt = $(row).attr('data-eparent') === '' ? -1 : parseInt($(row).attr('data-eparent'));
+                    // CLOSE
 
-                    if (row_eid === id)
+                    setRowOpen(src, false);
+
+                    for (let row of $(".row_entry"))
                     {
-                        // clicked folder
+                        let row_eid   = parseInt($(row).attr('data-eid'));
+                        let row_epath = JSON.parse($(row).attr('data-epath'));
 
-                        setRowOpen(row, epath.includes(row_eid) && !isopen);
-
-                        $(row).removeClass('row_collapsed');
+                        if (row_eid === id)
+                        {
+                            $(row).removeClass('row_collapsed');
+                        }
+                        else if (row_epath.includes(id))
+                        {
+                            setRowOpen(row, false);
+                            $(row).addClass('row_collapsed');
+                        }
                     }
-                    else if (epath.includes(row_eprnt))
+                }
+                else
+                {
+                    // OPEN
+
+                    setRowOpen(src, true);
+
+                    for (let row of $(".row_entry"))
                     {
-                        // subnode of someone in path
+                        let row_eprnt = $(row).attr('data-eparent') === '' ? -1 : parseInt($(row).attr('data-eparent'));
 
-                        setRowOpen(row, epath.includes(row_eid));
-
-                        $(row).addClass('row_collapsed');
-                        $(row).removeClass('row_collapsed');
-                    }
-                    else if (epath.includes(row_eid))
-                    {
-                        // somewhere previously in path
-
-                        setRowOpen(row, true);
-
-                        $(row).removeClass('row_collapsed');
-                    }
-                    else if (row_epath.length === 1)
-                    {
-                        // top level
-
-                        setRowOpen(row, epath.includes(row_eid));
-
-                        $(row).removeClass('row_collapsed');
-                    }
-                    else
-                    {
-                        // other entries
-
-                        setRowOpen(row, false);
-
-                        $(row).addClass('row_collapsed');
+                        if (row_eprnt === id) $(row).removeClass('row_collapsed');
                     }
                 }
             }
 
-            function onFileClicked(id, name)
+            function onBackClicked()
             {
+                $('.tablebox').css('visibility', 'visible');
+                $('.tablebox').css('display', 'flex');
+                $('.logviewbox').css('visibility', 'collapse');
+                $('.logviewbox').css('display', 'none');
+            }
 
+            function onFileClicked(id, name, path, display)
+            {
+                $('.tablebox').css('visibility', 'collapse');
+                $('.tablebox').css('display', 'none');
+                $('.logviewbox').css('visibility', 'visible');
+                $('.logviewbox').css('display', 'block');
+
+                $('#logviewtitle').html(display);
+                $('#logviewcontent').html('loading...');
+                $.ajax({
+                    url: "ajax/getlog.php?path="+encodeURIComponent(path)
+                }).done(function(msg)
+                {
+                    $('#logviewcontent').html(msg);
+                });
             }
 
         </script>
@@ -117,7 +123,7 @@
 
 		<div class="infocontainer">
 			<div class="infodiv">
-				IP Address:&nbsp;<?php echo getIP(); ?>
+				IP:&nbsp;<?php echo getIP(); ?>
 			</div>
 			<div class="infodiv">
 				OS:&nbsp;<?php echo getOperatingSystem(); ?>
@@ -125,8 +131,6 @@
 			<div class="infodiv">
 				Kernel:&nbsp;<?php echo getKernel(); ?>
 			</div>
-		</div>
-		<div class="infocontainer">
 			<div class="infodiv">
 				Uptime:&nbsp;<?php echo getUptime(); ?>
 			</div>
@@ -134,7 +138,7 @@
 				Boot Time:&nbsp;<?php echo getBootupTime(); ?>
 			</div>
 			<div class="infodiv">
-				Free Space:&nbsp;<?php echo getDiskData(); ?>
+				Space:&nbsp;<?php echo getDiskData(); ?>
 			</div>
 		</div>
 
@@ -142,7 +146,7 @@
 		<div class="tablebox">
 			<h2>Log files</h2>
 
-			<table class="filetab pure-table pure-table-bordered">
+			<table id="loglistcontent" class="filetab pure-table pure-table-bordered">
 				<thead>
 					<tr>
 						<th style='width: 600px'>Name</th>
@@ -153,10 +157,18 @@
 					</tr>
 				</thead>
 				<tbody>
-				<?php printTableEntries($entries, [], 0); ?>
+				<?php printTableEntries($entries, [], [], 0); ?>
 				</tbody>
 			</table>
 		</div>
+
+        <div class="logviewbox">
+            <h2 id="logviewtitle"></h2>
+
+            <div id="logviewcontent">
+
+            </div>
+        </div>
 
 
 	</body>
