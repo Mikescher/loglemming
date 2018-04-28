@@ -1,0 +1,211 @@
+
+.infodiv {
+    background: lightgray;
+    margin: 5px;
+    font-size: 32px;
+    display:inline-flex;
+    padding-left: 10px;
+    padding-top: 2px;
+    padding-right: 10px;
+    padding-bottom: 2px;
+
+    border: 1px dashed black;
+}
+
+#rootbox {
+    margin: 32px;
+}
+
+.filetab {
+    align-self: center;
+}
+
+.infocontainer {
+    display: flex;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 60px;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+
+    background: #F8F8F8;
+    padding: 5px 0px;
+}
+
+body {
+    text-align: center;
+}
+
+.tablebox {
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+}
+
+a:visited { color: blue; }
+
+h1 a { color: black; text-decoration: none; }
+h1 a:visited { color: black; text-decoration: none; }
+h1 a:hover { color: blue; text-decoration: underline; }
+
+.columnbox3 {
+    width: 100%;
+}
+.columnbox3:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.column3_0, .column3_1, .column3_2 {
+    width: 33%;
+    float: left;
+}
+
+.div_prev {
+    overflow: auto;
+    max-height: 768px;
+}
+
+.scrollabletabbox {
+    overflow: auto;
+    max-height: 1200px;
+}
+
+.td_err {
+    background: #F33;
+}
+
+.td_highlight {
+    background: wheat;
+}
+
+.pagination_row {
+    margin: 30px 200px 0 200px;
+    text-align: left;
+}
+
+.pagination_link, .pagination_curr {
+    display: inline-block;
+    min-width: 38px;
+    padding: 2px 5px;
+    margin:  2px 0;
+    font-weight: bold;
+
+    text-align: center;
+    text-decoration: none;
+    color: black;
+}
+
+.pagination_link:hover {
+    background: lightblue;
+}
+
+.pagination_link:visited {
+    color: black;
+}
+
+.pagination_link {
+    background: lightgray;
+    border: 1px solid darkgray;
+}
+
+.pagination_curr {
+    background: gray;
+    border: 1px solid black;
+}
+
+.subhshdr {
+    margin: 35px 0 10px 0;
+    font-weight: bold;
+    font-size: x-large;
+    text-align: center;
+}
+
+.subhshdr a {
+    text-decoration: none;
+    color: black;
+
+    display: inline-block;
+    border: 1px dotted #BBB;
+    padding: 2px 10px;
+    background: #EEE;
+    min-width: 500px;
+}
+
+.subhshdr a:visited {
+    text-decoration: none;
+    color: black;
+}
+
+.subhshdr a:hover {
+    border: 1px solid #444;
+    background: #9BF;
+}
+
+.filterlinkrow {
+    text-align: center;
+    margin: 0 0 5px 0;
+}
+
+.filterlinkrow a {
+    display: inline-block;
+    background: #444;
+    padding: 5px;
+    margin: 0 5px 0 5px;
+
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+
+    border: 1px dotted #FFF;
+}
+
+.filterlinkrow a:visited {
+    color: white;
+}
+
+.nolink {
+    color: black;
+    text-decoration: none;
+}
+
+.nolink:visited {
+    color: black;
+    text-decoration: none;
+}
+
+.nolink:hover {
+    color: blue;
+    text-decoration: underline;
+}
+
+.td_name .fas {
+    width: 24px;
+}
+.row_entry {
+    user-select: none;
+    -moz-user-select: none;
+}
+
+.row_entry:hover {
+    cursor: pointer;
+    background: #555;
+    color: white;
+}
+
+.row_name_indent {
+    width: 24px;
+    display: inline-block;
+}
+
+.row_collapsed {
+    visibility: collapse;
+    display: none;
+}
