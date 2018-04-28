@@ -3,13 +3,20 @@
     background: lightgray;
     margin: 5px;
     font-size: 32px;
-    display:inline-flex;
+    display:grid;
     padding-left: 10px;
     padding-top: 2px;
     padding-right: 10px;
     padding-bottom: 2px;
 
     border: 1px dashed black;
+}
+
+.infodiv span:nth-child(2) {
+    font-size: 24px;
+    background: #DDD;
+    border: 1px solid #CCC;
+    padding: 0 4px;
 }
 
 #rootbox {
@@ -212,7 +219,7 @@ h1 a:hover { color: blue; text-decoration: underline; }
 }
 
 #logviewcontent {
-    height: calc(100vh - 333px);
+    height: calc(100vh - 320px);
     overflow: auto;
 }
 

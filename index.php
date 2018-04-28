@@ -136,19 +136,19 @@ include_once __DIR__ . "/lib/util.php";
 
 		<div class="infocontainer">
 			<div class="infodiv">
-				IP:<br/><?php echo getIP(); ?>
+				<span>IP:</span><span><?php echo getIP(); ?></span>
 			</div>
 			<div class="infodiv">
-				OS:<br/><?php echo getOperatingSystem(); ?>
+                <span>OS:</span><span><?php echo getOperatingSystem(); ?></span>
 			</div>
 			<div class="infodiv">
-				Uptime:<br/><?php echo getUptime(); ?>
+                <span>Uptime:</span><span><?php echo getUptime(); ?></span>
 			</div>
 			<div class="infodiv">
-				Boot Time:<br/><?php echo getBootupTime(); ?>
+                <span>Boot Time:</span><span><?php echo getBootupTime(); ?></span>
 			</div>
 			<div class="infodiv">
-				Space:<br/><?php echo getDiskData(); ?>
+                <span>Space:</span><span><?php echo getDiskData(); ?></span>
 			</div>
 		</div>
 
