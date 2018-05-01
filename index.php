@@ -236,19 +236,23 @@ include_once __DIR__ . "/lib/util.php";
                 updateBtnReload();
 
                 $('#alt_list').html('');
-                for (let d of findAlt(DATA, path.split('/')))
+                let alt = findAlt(DATA, path);
+                if (alt != null)
                 {
-                    if (d.path == path)
+                    for (let d of alt)
                     {
-                        let str = '<div class="alt_list_elem alt_list_elem_selected">' + d.name + '</div>';
-                        $('#alt_list').append(str);
-                    }
-                    else
-                    {
-                        let uuid = generateUUID();
-                        let str = '<div class="alt_list_elem" id="'+uuid+'">' + d.name + '</div>';
-                        $('#alt_list').append(str);
-                        $('#'+uuid).click(function () { onFileClicked(d.path, display); });
+                        if (d.path == path)
+                        {
+                            let str = '<div class="alt_list_elem alt_list_elem_selected">' + d.name + '</div>';
+                            $('#alt_list').append(str);
+                        }
+                        else
+                        {
+                            let uuid = generateUUID();
+                            let str = '<div class="alt_list_elem" id="'+uuid+'">' + d.name + '</div>';
+                            $('#alt_list').append(str);
+                            $('#'+uuid).click(function () { onFileClicked(d.path, display); });
+                        }
                     }
                 }
 
