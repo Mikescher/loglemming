@@ -220,11 +220,8 @@ include_once __DIR__ . "/lib/util.php";
                     }
                     else if ('entries' in e)
                     {
-                        for (let dat2 of e.entries)
-                        {
-                            let recr = findAlt(dat2, path);
-                            if (recr != null) return recr;
-                        }
+                        let recr = findAlt(e.entries, path);
+                        if (recr != null) return recr;
                     }
 
                 }
