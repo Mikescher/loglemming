@@ -241,6 +241,8 @@ h1 a:hover { color: blue; text-decoration: underline; }
     display: flex;
     flex-direction: row;
     justify-content: center;
+    max-height: 100px;
+    overflow-y: auto;
 }
 
 .alt_list_elem {
