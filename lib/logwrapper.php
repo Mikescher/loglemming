@@ -20,9 +20,9 @@ function entry_cmp($a, $b)
 	return strcmp(strtolower($a["name"]), strtolower($b["name"]));
 }
 
-function cmp_mdate($a, $b)
+function cmp_mtime($a, $b)
 {
-	return $b["mdate"] - $a["mdate"];
+	return $b["mtime"] - $a["mtime"];
 }
 
 function listEntries()
@@ -101,10 +101,10 @@ function processentries($entries, $dirpath, &$i)
 	{
 		if ($e['type'] == 'file')
 		{
-			usort($e['files'], 'cmp_mdate');
+			usort($e['files'], 'cmp_mtime');
 			$e['size'] = $e['files'][0]['size'];
-			$e['cdate'] = $e['files'][0]['cdate'];
-			$e['mdate'] = $e['files'][0]['mdate'];
+			$e['ctime'] = $e['files'][0]['ctime'];
+			$e['mtime'] = $e['files'][0]['mtime'];
 		}
 
 		$resultentries []= $e;

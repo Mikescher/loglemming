@@ -19,8 +19,8 @@ function printTableEntries($entries, $fpath, $path, $indent)
 			print('</td>');
 			print('<td>' . fmtSize($entry['size'])  . '</td>');
 			print('<td>' . sizeof( $entry['files']) . '</td>');
-			print('<td>' . fmtTime($entry['cdate']) . '</td>');
-			print('<td>' . fmtTime($entry['mdate']) . '</td>');
+			print('<td>' . fmtTime($entry['ctime']) . '</td>');
+			print('<td>' . fmtTime($entry['mtime']) . '</td>');
 			print('</tr>');
 			print("\n");
 		}
