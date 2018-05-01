@@ -4,7 +4,7 @@ function printTableEntries($entries, $fpath, $path, $indent)
 {
 	foreach ($entries as $entry)
 	{
-		if ($entry['type'] == 'file')
+		if ($entry['type'] == 'file' || $entry['type'] == 'compressed_file')
 		{
 			$eparent = sizeof($path)==0 ? '' : $path[sizeof($path)-1];
 			$eid     = $entry['id'];
@@ -24,7 +24,7 @@ function printTableEntries($entries, $fpath, $path, $indent)
 			print('</tr>');
 			print("\n");
 		}
-		elseif ($entry['type'] == 'dir')
+		elseif ($entry['type'] == 'dir' || $entry['type'] == 'compressed_dir')
 		{
 			$eparent = sizeof($path)==0 ? '' : $path[sizeof($path)-1];
 			$eid     = $entry['id'];
