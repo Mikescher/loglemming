@@ -219,7 +219,6 @@ h1 a:hover { color: blue; text-decoration: underline; }
 }
 
 #logviewcontent {
-    height: calc(100vh - 320px);
     overflow: auto;
 }
 
@@ -236,4 +235,94 @@ h1 a:hover { color: blue; text-decoration: underline; }
 .logviewbox {
     display: none;
     visibility: collapse;
+}
+
+.alt_list {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.alt_list_elem {
+    display: inline-block;
+    margin: 4px;
+    padding: 2px 4px;
+    border: 1px solid #666;
+    background: #EEE;
+}
+
+.alt_list_elem:hover {
+    border: 1px solid #EEE;
+    background: #666;
+    cursor: pointer;
+}
+
+.alt_list_elem_selected {
+    border: 1px solid #EEE;
+    background: #666;
+    color:#EEE;
+}
+
+.alt_list_elem_selected:hover {
+    border: 1px solid #EEE;
+    background: #666;
+    cursor:default;
+}
+
+#logviewtitle {
+    display: grid;
+    grid-template-columns: 80px 1fr 80px;
+    height: 32px;
+}
+
+.btnBack {
+    width: 40px;
+    grid-column:1;
+    border-radius: 4px;
+    background: #666;
+    color: #EEE;
+    margin: 0px 20px;
+    padding: 0px 3px 0px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnBack:hover {
+    color: #88F;
+    cursor: pointer;
+}
+
+#logviewtitle_content {
+    grid-column:2;
+}
+
+#btnReload {
+    width: 40px;
+    grid-column:3;
+    border-radius: 4px;
+    background: #666;
+    color: #EEE;
+    margin: 0px 20px;
+    padding: 0px 6px 0px 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#btnReload:hover {
+    color: #88F;
+    cursor: pointer;
+}
+
+#btnReload.btnReload_active {
+    background: #0AF;
+}
+
+#btnReload.btnReload_error {
+    background: #F44;
+}
+
+#btnReload.btnReload_enabled {
+    background: #0A6;
 }

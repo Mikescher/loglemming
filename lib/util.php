@@ -9,7 +9,7 @@ function printTableEntries($entries, $fpath, $path, $indent)
 			$eparent = sizeof($path)==0 ? '' : $path[sizeof($path)-1];
 			$eid     = $entry['id'];
 			$class   = 'row_entry row_file row_id_' . $eid . ' ' . ($indent>0?'row_collapsed' : '');
-			$onclick = 'onFileClicked(' . $entry['id'] . ', "' . $entry['name'] . '", "' . implode('/', array_merge($fpath, [$entry['files'][0]['name']])) . '", "' . implode('/', array_merge($fpath, [$entry['name']])) . '");';
+			$onclick = 'onFileClicked("' . $entry['files'][0]['path'] . '", "' . $entry['path'] . '");';
 			$epath   = '[' . implode(', ', array_merge($path, [$eid])) . ']';
 
 			print("<tr class='$class' onclick='$onclick' data-epath='$epath' data-eid='$eid' data-eparent='$eparent'>");

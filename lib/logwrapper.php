@@ -37,7 +37,7 @@ function listEntries()
 	}
 
 	$i = 1000;
-	return processentries($json['entries'], $i);
+	return processentries($json['entries'], '', $i);
 }
 
 function readLogFile($path)
@@ -45,19 +45,21 @@ function readLogFile($path)
 	if (isSLLDebug())
 	{
 		sleep(2);
-		return file_get_contents('F:\Stash\aleph_test\A elementum molestie aenean litora primis.txt');
+		return file_get_contents(getSLLDebugFile());
 	}
 
 	return shell_exec('sudo simpleloglist read ' . escapeshellarg($path));
 }
 
-function processentries($entries, &$i)
+function processentries($entries, $dirpath, &$i)
 {
 	$result = [];
 
 	foreach ($entries as $e)
 	{
-		if ($e['type'] == 'file')
+		$e['path'] = ($dirpath==='') ? $e['name'] : ($dirpath . '/' . $e['name']);
+
+		if ($e['type'] == 'file' || $e['type'] == 'compressed_file')
 		{
 			$canonical = get_canonical_entryname($e);
 
@@ -72,21 +74,22 @@ function processentries($entries, &$i)
 					'name'  => $canonical,
 					'type'  => 'file',
 					'files' => [ $e ],
-					'gzip'  => endsWith($e['name'], '.gz'),
+					'gzip'  => ($e['type'] == 'compressed_file'),
 					'id'    => $i++,
+					'path'  => ($dirpath==='') ? $canonical : ($dirpath . '/' . $canonical)
 				];
-				$resultentries []= $newentry;
 				$result[$canonical] = $newentry;
 			}
 		}
-		elseif ($e['type'] == 'dir')
+		elseif ($e['type'] == 'dir' || $e['type'] == 'compressed_dir')
 		{
 			$result []=
 			[
 				'name'    => $e['name'],
 				'type'    => $e['type'],
+				'gzip'    => ($e['type'] == 'compressed_dir'),
 				'id'      => $i++,
-				'entries' => processentries($e['entries'], $i),
+				'entries' => processentries($e['entries'], $e['path'], $i),
 			];
 		}
 

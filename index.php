@@ -40,6 +40,22 @@ include_once __DIR__ . "/lib/util.php";
 
         <script type="text/javascript">
 
+            let DATA = <?php echo json_encode($entries) ?>;
+
+            let autoReloadEnabled = false;
+            let selectedPath = '';
+            let RELOAD_SPEED = <?php echo getTailReloadSpeed(); ?>;
+
+            function generateUUID()
+            {
+                function s4() {
+                    return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1);
+                }
+                return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+            }
+
             function setRowOpen(row, val)
             {
                 if (val)
@@ -107,20 +123,145 @@ include_once __DIR__ . "/lib/util.php";
 
             function onBackClicked()
             {
+                autoReloadEnabled = false;
+                updateBtnReload();
+
                 $('.tablebox').css('visibility', 'visible');
                 $('.tablebox').css('display', 'flex');
                 $('.logviewbox').css('visibility', 'collapse');
                 $('.logviewbox').css('display', 'none');
             }
 
-            function onFileClicked(id, name, path, display)
+            function onToggleReloadClicked()
             {
+                autoReloadEnabled = !autoReloadEnabled;
+                updateBtnReload();
+            }
+
+            function updateBtnReload()
+            {
+                if (!autoReloadEnabled)
+                {
+                    $('#btnReload').removeClass('btnReload_error');
+                    $('#btnReload').removeClass('btnReload_active');
+                    $('#btnReload_spinner').removeClass('fa-spin');
+                    $('#btnReload').removeClass('btnReload_enabled');
+                    return;
+                }
+                else
+                {
+                    $('#btnReload').removeClass('btnReload_error');
+                    $('#btnReload').removeClass('btnReload_active');
+                    $('#btnReload_spinner').removeClass('fa-spin');
+                    $('#btnReload').removeClass('btnReload_enabled');
+                    $('#btnReload').addClass('btnReload_enabled');
+                }
+            }
+
+            function autoReload()
+            {
+                if (selectedPath == '') autoReloadEnabled = false;
+
+                if (!autoReloadEnabled)
+                {
+                    $('#btnReload').removeClass('btnReload_error');
+                    $('#btnReload').removeClass('btnReload_active');
+                    $('#btnReload_spinner').removeClass('fa-spin');
+                    $('#btnReload').removeClass('btnReload_enabled');
+                    setTimeout(autoReload, RELOAD_SPEED);
+                    return;
+                }
+
+                $('#btnReload').removeClass('btnReload_enabled');
+                $('#btnReload').addClass('btnReload_active');
+                $('#btnReload_spinner').addClass('fa-spin');
+
+                let sendPath = selectedPath;
+
+                $
+                    .ajax({ url: "ajax/getlog.php?path="+encodeURIComponent(selectedPath) })
+                    .done(function(msg)
+                {
+                    if (!autoReloadEnabled) { setTimeout(autoReload, RELOAD_SPEED); updateBtnReload(); return; }
+                    if (sendPath != selectedPath) { setTimeout(autoReload, RELOAD_SPEED); updateBtnReload(); return; }
+
+                    $('#logviewcontent').html(msg);
+
+                    $('#btnReload').removeClass('btnReload_active');
+                    $('#btnReload_spinner').removeClass('fa-spin');
+                    $('#btnReload').addClass('btnReload_enabled');
+
+                    setTimeout(autoReload, RELOAD_SPEED);
+
+                })
+                    .fail(function(msg)
+                {
+                    if (!autoReloadEnabled) { setTimeout(autoReload, RELOAD_SPEED); updateBtnReload(); return; }
+                    if (sendPath != selectedPath) { setTimeout(autoReload, RELOAD_SPEED); updateBtnReload(); return; }
+
+                    $('#btnReload').removeClass('btnReload_active');
+                    $('#btnReload').addClass('btnReload_error');
+                    $('#btnReload_spinner').removeClass('fa-spin');
+
+                    setTimeout(autoReload, RELOAD_SPEED);
+                });
+            }
+
+            function findAlt(dat, path)
+            {
+                for (let e of dat)
+                {
+                    if ('files' in e)
+                    {
+                        for(let f of e.files)
+                        {
+                            if (f.path == path) return e.files;
+                        }
+                    }
+                    else if ('entries' in e)
+                    {
+                        for (let dat2 of e.entries)
+                        {
+                            let recr = findAlt(dat2, path);
+                            if (recr != null) return recr;
+                        }
+                    }
+
+                }
+                return null;
+            }
+
+            function onFileClicked(path, display)
+            {
+                parent.location.hash = path;
+                selectedPath = path;
+                autoReloadEnabled = false;
+                updateBtnReload();
+
+                $('#alt_list').html('');
+                for (let d of findAlt(DATA, path.split('/')))
+                {
+                    if (d.path == path)
+                    {
+                        let str = '<div class="alt_list_elem alt_list_elem_selected">' + d.name + '</div>';
+                        $('#alt_list').append(str);
+                    }
+                    else
+                    {
+                        let uuid = generateUUID();
+                        let str = '<div class="alt_list_elem" id="'+uuid+'">' + d.name + '</div>';
+                        $('#alt_list').append(str);
+                        $('#'+uuid).click(function () { onFileClicked(d.path, display); });
+                    }
+                }
+
+
                 $('.tablebox').css('visibility', 'collapse');
                 $('.tablebox').css('display', 'none');
                 $('.logviewbox').css('visibility', 'visible');
                 $('.logviewbox').css('display', 'block');
 
-                $('#logviewtitle').html(display);
+                $('#logviewtitle_content').html(display);
                 $('#logviewcontent').html('loading...');
                 $.ajax({
                     url: "ajax/getlog.php?path="+encodeURIComponent(path)
@@ -130,11 +271,22 @@ include_once __DIR__ . "/lib/util.php";
                 });
             }
 
+            window.onload = function ()
+            {
+                if (parent.location.hash != '')
+                {
+                    let path = parent.location.hash.substring(1);
+                    onFileClicked(path, path);
+                }
+
+                setTimeout(autoReload, RELOAD_SPEED);
+            }
+
         </script>
 
-		<h1><a href="index.php">Web logcat viewer</a></h1>
+		<h1  class="bodyrow_1 bigheader"><a href="index.php">Web logcat viewer</a></h1>
 
-		<div class="infocontainer">
+		<div class="bodyrow_2 infocontainer">
 			<div class="infodiv">
 				<span>IP:</span><span><?php echo getIP(); ?></span>
 			</div>
@@ -148,12 +300,11 @@ include_once __DIR__ . "/lib/util.php";
                 <span>Boot Time:</span><span><?php echo getBootupTime(); ?></span>
 			</div>
 			<div class="infodiv">
-                <span>Space:</span><span><?php echo getDiskData(); ?></span>
+                <span>Free Space:</span><span><?php echo getDiskData(); ?></span>
 			</div>
 		</div>
 
-
-		<div class="tablebox">
+		<div class="bodyrow_3 tablebox">
 			<h2>Log files</h2>
 
 			<table id="loglistcontent" class="filetab pure-table pure-table-bordered">
@@ -172,14 +323,15 @@ include_once __DIR__ . "/lib/util.php";
 			</table>
 		</div>
 
-        <div class="logviewbox">
-            <h2 id="logviewtitle"></h2>
-
-            <div id="logviewcontent">
-
-            </div>
+        <div class="bodyrow_3 logviewbox">
+            <h2  id="logviewtitle">
+                <span class="btnBack" onclick="onBackClicked();"><i class="fas fa-backward"></i></span>
+                <span id="logviewtitle_content"></span>
+                <span id="btnReload" class="" onclick="onToggleReloadClicked();"><i id="btnReload_spinner" class="fas fa-sync-alt"></i></span>
+            </h2>
+            <div id="alt_list"></div>
+            <div id="logviewcontent"></div>
         </div>
-
 
 	</body>
 </html>
