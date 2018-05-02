@@ -75,6 +75,8 @@ function onDirClicked(id, epath)
 
 function onBackClicked()
 {
+	parent.location.hash = "";
+
 	autoReloadEnabled = false;
 	updateBtnReload();
 
@@ -224,9 +226,74 @@ function onFileClicked(path, display)
 	});
 }
 
-function printTableEntries(entries, fpath, path, indent)
+function printTableEntries(entries, fpath, path, indent, order)
 {
 	let result = "";
+
+	if (order == '+name')
+	{
+		entries = JSON.parse(JSON.stringify(entries));
+		entries.sort(function (a, b) 
+		{ 
+			var _a = a.name.toUpperCase();
+			var _b = b.name.toUpperCase();
+			if (_a < _b) return -1;
+			if (_a > _b) return +1;
+			return 0;
+		});
+	}
+	else if (order == '-name')
+	{
+		entries = JSON.parse(JSON.stringify(entries));
+		entries.sort(function (a, b) 
+		{ 
+			var _a = a.name.toUpperCase();
+			var _b = b.name.toUpperCase();
+			if (_a < _b) return +1;
+			if (_a > _b) return -1;
+			return 0;
+		});
+	}
+	else if (order == '+size')
+	{
+		entries = JSON.parse(JSON.stringify(entries));
+		entries.sort(function (a, b) { a.size - b.size; });
+	}
+	else if (order == '-size')
+	{
+		entries = JSON.parse(JSON.stringify(entries));
+		entries.sort(function (a, b) { b.size - a.size; });
+	}
+	else if (order == '+count')
+	{
+		entries = JSON.parse(JSON.stringify(entries));
+		entries.sort(function (a, b) { a.count - b.count; });
+	}
+	else if (order == '-count')
+	{
+		entries = JSON.parse(JSON.stringify(entries));
+		entries.sort(function (a, b) { b.count - a.count; });
+	}
+	else if (order == '+ctime')
+	{
+		entries = JSON.parse(JSON.stringify(entries));
+		entries.sort(function (a, b) { a.ctime - b.ctime; });
+	}
+	else if (order == '-ctime')
+	{
+		entries = JSON.parse(JSON.stringify(entries));
+		entries.sort(function (a, b) { b.ctime - a.ctime; });
+	}
+	else if (order == '+mtime')
+	{
+		entries = JSON.parse(JSON.stringify(entries));
+		entries.sort(function (a, b) { a.mtime - b.mtime; });
+	}
+	else if (order == '-mtime')
+	{
+		entries = JSON.parse(JSON.stringify(entries));
+		entries.sort(function (a, b) { b.mtime - a.mtime; });
+	}
 
 	for (entry of entries)
 	{
@@ -244,7 +311,7 @@ function printTableEntries(entries, fpath, path, indent)
 			result += ('<i class="fas ' + ($entry['gzip'] ? 'fa-file-archive' : 'fa-file') + '"></i>' + $entry.name);
 			result += ('</td>');
 			result += ('<td>' + entry.fmt_size     + '</td>');
-			result += ('<td>' + entry.files.length + '</td>');
+			result += ('<td>' + entry.fmt_count    + '</td>');
 			result += ('<td>' + entry.fmt_ctime    + '</td>');
 			result += ('<td>' + entry.fmt_mtime    + '</td>');
 			result += ('</tr>');
@@ -264,38 +331,75 @@ function printTableEntries(entries, fpath, path, indent)
 			result += ('<i class="fas fa-folder"></i>' + entry.name);
 			result += ('</td>');
 			result += ('<td>' + entry.fmt_size     + '</td>');
-			result += ('<td></td>');
+			result += ('<td>' + entry.fmt_count    + '</td>');
 			result += ('<td>' + entry.fmt_ctime    + '</td>');
 			result += ('<td>' + entry.fmt_mtime    + '</td>');
 			result += ('</tr>');
 			result += ("\n");
 
-			result += printTableEntries(entry.entries, fpath.concat([entry.name]), path.concat([entry.id]), $indent+1);
+			result += printTableEntries(entry.entries, fpath.concat([entry.name]), path.concat([entry.id]), $indent+1, order);
 		}
 	}
 
 	return result;
 }
 
-function getTableHTML()
+function getTableHTML(order)
 {
 	let result = "";
 
 	result += "<thead>\n";
 	result += "<tr>\n";
-	result += "<th style='width: 600px'>Name</th>\n";
-	result += "<th style='width: 100px'>Size</th>\n";
-	result += "<th style='width: 100px'>Rotation</th>\n";
-	result += "<th style='width: 150px'>Created</th>\n";
-	result += "<th style='width: 150px'>Modified</th>\n";
+
+	if (order == '+name')
+		result += "<th style='width: 600px' class='th_sortcol'><a href='#' onclick='setOrder(\"-name\")'>Name&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+	else if (order == '-name')
+		result += "<th style='width: 600px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Name&nbsp;<i class='fas fa-caret-up'></i></a></th>\n";
+	else
+		result += "<th style='width: 600px'><a href='#' onclick='setOrder(\"+name\")' >Name</a></th>\n";
+
+	if (order == '+size')
+		result += "<th style='width: 100px' class='th_sortcol'><a href='#' onclick='setOrder(\"-size\")'>Size&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+	else if (order == '-size')
+		result += "<th style='width: 100px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Size&nbsp;<i class='fas fa-caret-up'></i></a></th>\n";
+	else
+		result += "<th style='width: 100px'><a href='#' onclick='setOrder(\"+size\")'>Size</a></th>\n";
+
+	if (order == '+count')
+		result += "<th style='width: 100px' class='th_sortcol'><a href='#' onclick='setOrder(\"-count\")'>Rotation&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+	else if (order == '-count')
+		result += "<th style='width: 100px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Rotation&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+	else
+		result += "<th style='width: 100px'><a href='#' onclick='setOrder(\"+count\")'>Rotation</a></th>\n";
+
+	if (order == '+ctime')
+		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"-ctime\")'>Created&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+	else if (order == '-ctime')
+		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Created&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+	else
+		result += "<th style='width: 150px'><a href='#' onclick='setOrder(\"+ctime\")'>Created</a></th>\n";
+
+	if (order == '+mtime')
+		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"-mtime\")'>Created&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+	else if (order == '-mtime')
+		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Created&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+	else
+		result += "<th style='width: 150px'><a href='#' onclick='setOrder(\"+mtime\")'>Modified</a></th>\n";
+
 	result += "</tr>\n";
 	result += "</thead>\n";
 	result += "<tbody>\n";
-	result += printTableEntries(DATA, [], [], 0);
+	result += printTableEntries(DATA, [], [], 0, order);
 	result += "</tbody>\n";
 
 	return result;
 
+}
+
+function setOrder(order)
+{
+	$('#loglistcontent').html("");
+	$('#loglistcontent').html( getTableHTML(order) );
 }
 
 //#############################################################################

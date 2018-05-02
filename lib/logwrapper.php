@@ -106,9 +106,11 @@ function processentries($entries, $dirpath, &$i)
 			$e['size']      = $sz;
 			$e['ctime']     = $e['files'][0]['ctime'];
 			$e['mtime']     = $e['files'][0]['mtime'];
+			$e['count']     = sizeof($e['files']);
 			$e['fmt_mtime'] = fmtTime($e['mtime']);
 			$e['fmt_ctime'] = fmtTime($e['ctime']);
 			$e['fmt_size']  = fmtSize($e['size']);
+			$e['fmt_count'] = "" . $e['count'];
 		} 
 		else if ($e['type'] == 'dir' || $e['type'] == 'compressed_dir')
 		{
@@ -116,9 +118,11 @@ function processentries($entries, $dirpath, &$i)
 			$e['size']      = $sz;
 			$e['ctime']     = sizeof($e['entries'] == 0) ? 0 : $e['entries'][0]['ctime'];
 			$e['mtime']     = sizeof($e['entries'] == 0) ? 0 : $e['entries'][0]['mtime'];
+			$e['count']     = 0;
 			$e['fmt_mtime'] = fmtTime($e['mtime']);
 			$e['fmt_ctime'] = fmtTime($e['ctime']);
 			$e['fmt_size']  = fmtSize($e['size']);
+			$e['fmt_count'] = "";
 		}
 
 		$resultentries []= $e;
