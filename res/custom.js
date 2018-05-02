@@ -257,58 +257,58 @@ function printTableEntries(entries, fpath, path, indent, order)
 	else if (order == '+size')
 	{
 		entries = JSON.parse(JSON.stringify(entries));
-		entries.sort(function (a, b) { a.size - b.size; });
+		entries.sort(function (a, b) { return a.size - b.size; });
 	}
 	else if (order == '-size')
 	{
 		entries = JSON.parse(JSON.stringify(entries));
-		entries.sort(function (a, b) { b.size - a.size; });
+		entries.sort(function (a, b) { return b.size - a.size; });
 	}
 	else if (order == '+count')
 	{
 		entries = JSON.parse(JSON.stringify(entries));
-		entries.sort(function (a, b) { a.count - b.count; });
+		entries.sort(function (a, b) { return a.count - b.count; });
 	}
 	else if (order == '-count')
 	{
 		entries = JSON.parse(JSON.stringify(entries));
-		entries.sort(function (a, b) { b.count - a.count; });
+		entries.sort(function (a, b) { return b.count - a.count; });
 	}
 	else if (order == '+ctime')
 	{
 		entries = JSON.parse(JSON.stringify(entries));
-		entries.sort(function (a, b) { a.ctime - b.ctime; });
+		entries.sort(function (a, b) { return a.ctime - b.ctime; });
 	}
 	else if (order == '-ctime')
 	{
 		entries = JSON.parse(JSON.stringify(entries));
-		entries.sort(function (a, b) { b.ctime - a.ctime; });
+		entries.sort(function (a, b) { return b.ctime - a.ctime; });
 	}
 	else if (order == '+mtime')
 	{
 		entries = JSON.parse(JSON.stringify(entries));
-		entries.sort(function (a, b) { a.mtime - b.mtime; });
+		entries.sort(function (a, b) { return a.mtime - b.mtime; });
 	}
 	else if (order == '-mtime')
 	{
 		entries = JSON.parse(JSON.stringify(entries));
-		entries.sort(function (a, b) { b.mtime - a.mtime; });
+		entries.sort(function (a, b) { return b.mtime - a.mtime; });
 	}
 
-	for (entry of entries)
+	for (let entry of entries)
 	{
 		if (entry.type == 'file' || entry.type == 'compressed_file')
 		{
-			let eparent  = path.length == 0 ? '' : path[(path.length-1];
+			let eparent  = path.length == 0 ? '' : path[path.length-1];
 			let eid      = entry.id;
-			let cssclass = 'row_entry row_file row_id_' + eid + ' ' . ((indent>0)?'row_collapsed' : '');
-			let onclick  = 'onFileClicked("' + entry.files[0].path + '", "' + $entry.path + '");';
+			let cssclass = 'row_entry row_file row_id_' + eid + ' ' + ((indent>0)?'row_collapsed' : '');
+			let onclick  = 'onFileClicked("' + entry.files[0].path + '", "' + entry.path + '");';
 			let epath    = '[' + path.concat([eid]).join(', ') + ']';
 
-			result += ("<tr class='"+cssclass+"' onclick='"+onclick"+' data-epath='"+epath+"' data-eid='"+eid+"' data-eparent='"+eparent"+'>");
+			result += ("<tr class='"+cssclass+"' onclick='"+onclick+"' data-epath='"+epath+"' data-eid='"+eid+"' data-eparent='"+eparent+"'>");
 			result += ('<td class="td_name">');
-			for ($i=0;$i<$indent;$i++) result += ('<span class="row_name_indent"></span>');
-			result += ('<i class="fas ' + ($entry['gzip'] ? 'fa-file-archive' : 'fa-file') + '"></i>' + $entry.name);
+			for (let i=0;i<indent;i++) result += ('<span class="row_name_indent"></span>');
+			result += ('<i class="fas ' + (entry['gzip'] ? 'fa-file-archive' : 'fa-file') + '"></i>' + entry.name);
 			result += ('</td>');
 			result += ('<td>' + entry.fmt_size     + '</td>');
 			result += ('<td>' + entry.fmt_count    + '</td>');
@@ -319,15 +319,15 @@ function printTableEntries(entries, fpath, path, indent, order)
 		}
 		else if (entry.type == 'dir' || entry.type == 'compressed_dir')
 		{
-			let eparent  = path.length == 0 ? '' : path[(path.length-1];
+			let eparent  = path.length == 0 ? '' : path[path.length-1];
 			let eid      = entry.id;
-			let cssclass = 'row_entry row_dir row_id_' + eid . ' ' + ((indent>0)?'row_collapsed' : '');
+			let cssclass = 'row_entry row_dir row_id_' + eid + ' ' + ((indent>0)?'row_collapsed' : '');
 			let epath    = '[' + path.concat([eid]).join(', ') + ']';
 			let onclick  = 'onDirClicked(' + entry.id + ', '  + epath + ');';
 
-			result += ("<tr class='"+cssclass+"' onclick='"+onclick"+' data-epath='"+epath+"' data-eid='"+eid+"' data-eparent='"+eparent"+'>");
+			result += ("<tr class='"+cssclass+"' onclick='"+onclick+"' data-epath='"+epath+"' data-eid='"+eid+"' data-eparent='"+eparent+"'>");
 			result += ('<td class="td_name">');
-			for ($i=0;$i<$indent;$i++) result += ('<span class="row_name_indent"></span>');
+			for (let i=0;i<indent;i++) result += ('<span class="row_name_indent"></span>');
 			result += ('<i class="fas fa-folder"></i>' + entry.name);
 			result += ('</td>');
 			result += ('<td>' + entry.fmt_size     + '</td>');
@@ -337,7 +337,7 @@ function printTableEntries(entries, fpath, path, indent, order)
 			result += ('</tr>');
 			result += ("\n");
 
-			result += printTableEntries(entry.entries, fpath.concat([entry.name]), path.concat([entry.id]), $indent+1, order);
+			result += printTableEntries(entry.entries, fpath.concat([entry.name]), path.concat([entry.id]), indent+1, order);
 		}
 	}
 
@@ -359,32 +359,32 @@ function getTableHTML(order)
 		result += "<th style='width: 600px'><a href='#' onclick='setOrder(\"+name\")' >Name</a></th>\n";
 
 	if (order == '+size')
-		result += "<th style='width: 100px' class='th_sortcol'><a href='#' onclick='setOrder(\"-size\")'>Size&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+		result += "<th style='width: 100px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Size&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
 	else if (order == '-size')
-		result += "<th style='width: 100px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Size&nbsp;<i class='fas fa-caret-up'></i></a></th>\n";
+		result += "<th style='width: 100px' class='th_sortcol'><a href='#' onclick='setOrder(\"+size\")'>Size&nbsp;<i class='fas fa-caret-up'></i></a></th>\n";
 	else
-		result += "<th style='width: 100px'><a href='#' onclick='setOrder(\"+size\")'>Size</a></th>\n";
+		result += "<th style='width: 100px'><a href='#' onclick='setOrder(\"-size\")'>Size</a></th>\n";
 
 	if (order == '+count')
 		result += "<th style='width: 100px' class='th_sortcol'><a href='#' onclick='setOrder(\"-count\")'>Rotation&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
 	else if (order == '-count')
-		result += "<th style='width: 100px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Rotation&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+		result += "<th style='width: 100px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Rotation&nbsp;<i class='fas fa-caret-up'></i></a></th>\n";
 	else
 		result += "<th style='width: 100px'><a href='#' onclick='setOrder(\"+count\")'>Rotation</a></th>\n";
 
 	if (order == '+ctime')
-		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"-ctime\")'>Created&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
-	else if (order == '-ctime')
 		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Created&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+	else if (order == '-ctime')
+		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"+ctime\")'>Created&nbsp;<i class='fas fa-caret-up'></i></a></th>\n";
 	else
-		result += "<th style='width: 150px'><a href='#' onclick='setOrder(\"+ctime\")'>Created</a></th>\n";
+		result += "<th style='width: 150px'><a href='#' onclick='setOrder(\"-ctime\")'>Created</a></th>\n";
 
 	if (order == '+mtime')
-		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"-mtime\")'>Created&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Modified&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
 	else if (order == '-mtime')
-		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Created&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"+mtime\")'>Modified&nbsp;<i class='fas fa-caret-up'></i></a></th>\n";
 	else
-		result += "<th style='width: 150px'><a href='#' onclick='setOrder(\"+mtime\")'>Modified</a></th>\n";
+		result += "<th style='width: 150px'><a href='#' onclick='setOrder(\"-mtime\")'>Modified</a></th>\n";
 
 	result += "</tr>\n";
 	result += "</thead>\n";

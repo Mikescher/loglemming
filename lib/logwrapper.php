@@ -29,7 +29,7 @@ function listEntries()
 {
 	if (isSLLDebug())
 	{
-		$json = json_decode(file_get_contents('F:\temp\simpleloglist_list.txt'), true);
+		$json = json_decode(file_get_contents(getSLLDebugFileList()), true);
 	}
 	else
 	{
@@ -45,7 +45,7 @@ function readLogFile($path)
 	if (isSLLDebug())
 	{
 		sleep(2);
-		return file_get_contents(getSLLDebugFile());
+		return file_get_contents(getSLLDebugFileRead());
 	}
 
 	return shell_exec('sudo simpleloglist read ' . escapeshellarg($path));
@@ -116,13 +116,15 @@ function processentries($entries, $dirpath, &$i)
 		{
 			$sz = 0; foreach($e['entries'] as $sze) $sz += $sze['size'];
 			$e['size']      = $sz;
-			$e['ctime']     = sizeof($e['entries'] == 0) ? 0 : $e['entries'][0]['ctime'];
-			$e['mtime']     = sizeof($e['entries'] == 0) ? 0 : $e['entries'][0]['mtime'];
+			$e['ctime']     = (sizeof($e['entries']) == 0) ? 0 : $e['entries'][0]['ctime'];
+			$e['mtime']     = (sizeof($e['entries']) == 0) ? 0 : $e['entries'][0]['mtime'];
 			$e['count']     = 0;
 			$e['fmt_mtime'] = fmtTime($e['mtime']);
 			$e['fmt_ctime'] = fmtTime($e['ctime']);
 			$e['fmt_size']  = fmtSize($e['size']);
 			$e['fmt_count'] = "";
+
+			if (sizeof($e['entries']) == 0) continue;
 		}
 
 		$resultentries []= $e;
