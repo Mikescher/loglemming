@@ -99,12 +99,26 @@ function processentries($entries, $dirpath, &$i)
 
 	foreach ($result as &$e)
 	{
-		if ($e['type'] == 'file')
+		if ($e['type'] == 'file' || $e['type'] == 'compressed_file')
 		{
 			usort($e['files'], 'cmp_mtime');
-			$e['size'] = $e['files'][0]['size'];
-			$e['ctime'] = $e['files'][0]['ctime'];
-			$e['mtime'] = $e['files'][0]['mtime'];
+			$sz = 0; foreach($e['files'] as $sze) $sz += $sze['size'];
+			$e['size']      = $sz;
+			$e['ctime']     = $e['files'][0]['ctime'];
+			$e['mtime']     = $e['files'][0]['mtime'];
+			$e['fmt_mtime'] = fmtTime($e['mtime']);
+			$e['fmt_ctime'] = fmtTime($e['ctime']);
+			$e['fmt_size']  = fmtSize($e['size']);
+		} 
+		else if ($e['type'] == 'dir' || $e['type'] == 'compressed_dir')
+		{
+			$sz = 0; foreach($e['entries'] as $sze) $sz += $sze['size'];
+			$e['size']      = $sz;
+			$e['ctime']     = sizeof($e['entries'] == 0) ? 0 : $e['entries'][0]['ctime'];
+			$e['mtime']     = sizeof($e['entries'] == 0) ? 0 : $e['entries'][0]['mtime'];
+			$e['fmt_mtime'] = fmtTime($e['mtime']);
+			$e['fmt_ctime'] = fmtTime($e['ctime']);
+			$e['fmt_size']  = fmtSize($e['size']);
 		}
 
 		$resultentries []= $e;

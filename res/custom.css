@@ -328,3 +328,6 @@ h1 a:hover { color: blue; text-decoration: underline; }
 #btnReload.btnReload_enabled {
     background: #0A6;
 }
+
+.fa-folder { color:orange }
+.fa-folder-open { color:orange }
