@@ -299,10 +299,18 @@ function printTableEntries(entries, fpath, path, indent, order)
 	{
 		if (entry.type == 'file' || entry.type == 'compressed_file')
 		{
-			let eparent  = path.length == 0 ? '' : path[path.length-1];
+			let basePath = entry.files[0].path;
+			for (let f of entry.files)
+			{
+				if (!(f.size > 0)) continue;
+                basePath = f.path;
+                break;
+			}
+
+            let eparent  = path.length == 0 ? '' : path[path.length-1];
 			let eid      = entry.id;
 			let cssclass = 'row_entry row_file row_id_' + eid + ' ' + ((indent>0)?'row_collapsed' : '');
-			let onclick  = 'onFileClicked("' + entry.files[0].path + '", "' + entry.path + '");';
+			let onclick  = 'onFileClicked("' + basePath + '", "' + entry.path + '");';
 			let epath    = '[' + path.concat([eid]).join(', ') + ']';
 
 			result += ("<tr class='"+cssclass+"' onclick='"+onclick+"' data-epath='"+epath+"' data-eid='"+eid+"' data-eparent='"+eparent+"'>");
