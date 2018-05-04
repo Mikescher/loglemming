@@ -41,7 +41,7 @@ $entries = listEntries();
 
 		<script src="res/custom.js"></script>
 
-		<h1  class="bodyrow_1 bigheader"><a href="index.php">Web logcat viewer</a></h1>
+		<h1  class="bodyrow_1 bigheader"><a href="index.php">Log Lemming</a></h1>
 
 		<div class="bodyrow_2 infocontainer">
 			<div class="infodiv">
