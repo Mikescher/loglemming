@@ -173,6 +173,22 @@ function get_canonical_entryname($entry)
 			continue;
 		}
 
+                $matches = [];
+                if (preg_match('/.*([\._][12][0-9]{3}-[01][0-9]-[0-3][0-9][\-_ ][0-9]{2}[_\-:][0-9]{2})$/', $n, $matches))
+                {
+                        $n = substr($n, 0, strlen($n)-strlen($matches[1]));
+                        continue;
+                }
+
+                $matches = [];
+                if (preg_match('/.*([\._][12][0-9]{3}-[01][0-9]-[0-3][0-9][\-_ ][0-9]{2}[_\-:][0-9]{2}[_\-:][0-9]{2})$/', $n, $matches))
+                {
+                        $n = substr($n, 0, strlen($n)-strlen($matches[1]));
+                        continue;
+                }
+
+
+
 		return $n;
 	}
 
