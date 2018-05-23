@@ -159,33 +159,33 @@ function get_canonical_entryname($entry)
 			continue;
 		}
 
-		$matches = [];
-		if (preg_match('/.*(\.[0-9]+)$/', $n, $matches))
+		$matches = []; // filename_2000-01-01_12-00-00.log
+		if (preg_match('/.*([\._][12][0-9]{3}-[01][0-9]-[0-3][0-9][\-_ ][0-9]{2}[_\-:][0-9]{2}[_\-:][0-9]{2})$/', $n, $matches))
 		{
 			$n = substr($n, 0, strlen($n)-strlen($matches[1]));
 			continue;
 		}
 
-		$matches = [];
+		$matches = []; // filename_2000-01-01_12-00.log
+		if (preg_match('/.*([\._][12][0-9]{3}-[01][0-9]-[0-3][0-9][\-_ ][0-9]{2}[_\-:][0-9]{2})$/', $n, $matches))
+		{
+			$n = substr($n, 0, strlen($n)-strlen($matches[1]));
+			continue;
+		}
+
+		$matches = []; // filename_2000-01-01.log
 		if (preg_match('/.*([\._][12][0-9]{3}-[01][0-9]-[0-3][0-9])$/', $n, $matches))
 		{
 			$n = substr($n, 0, strlen($n)-strlen($matches[1]));
 			continue;
 		}
 
-                $matches = [];
-                if (preg_match('/.*([\._][12][0-9]{3}-[01][0-9]-[0-3][0-9][\-_ ][0-9]{2}[_\-:][0-9]{2})$/', $n, $matches))
-                {
-                        $n = substr($n, 0, strlen($n)-strlen($matches[1]));
-                        continue;
-                }
-
-                $matches = [];
-                if (preg_match('/.*([\._][12][0-9]{3}-[01][0-9]-[0-3][0-9][\-_ ][0-9]{2}[_\-:][0-9]{2}[_\-:][0-9]{2})$/', $n, $matches))
-                {
-                        $n = substr($n, 0, strlen($n)-strlen($matches[1]));
-                        continue;
-                }
+		$matches = []; // filename.02.log
+		if (preg_match('/.*(\.[0-9]+)$/', $n, $matches))
+		{
+			$n = substr($n, 0, strlen($n)-strlen($matches[1]));
+			continue;
+		}
 
 
 
