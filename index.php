@@ -31,7 +31,6 @@ $entries = listEntries();
 		<script src="res/sorttable.js"></script>
 
         <script type="text/javascript">
-
             let DATA = <?php echo json_encode($entries) ?>;
 
             let autoReloadEnabled = false;
