@@ -2,7 +2,7 @@
 
 function isPHPDebug() { return false; }
 
-function isSLLDebug() { return true; }
+function isSLLDebug() { return false; }
 
 function getTailReloadSpeed() { return 3000; }
 
