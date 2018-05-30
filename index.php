@@ -19,6 +19,8 @@ $entries = listEntries();
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+		<meta name="robots" content="noindex">
+
 		<link rel="stylesheet" type="text/css" href="res/pure-min.css"/>
 		<link rel="stylesheet" type="text/css" href="res/custom.css"/>
 
