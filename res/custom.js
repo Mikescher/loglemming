@@ -193,28 +193,66 @@ function onFileClicked(path, display)
 	let alt = findAlt(DATA, path);
 	if (alt != null)
 	{
-		for (let d of alt)
+		if (alt.length >= 16)
 		{
-			if (d.path == path)
-			{
-				let str = '<div class="alt_list_elem alt_list_elem_selected">' + d.name + '</div>';
-				$('#alt_list').append(str);
-			}
-			else
+			let map = {};
+			let slct = "<select id=\"alt_list_cbx\">\n";
+			for (let d of alt)
 			{
 				let uuid = generateUUID();
-				let str = '<div class="alt_list_elem" id="'+uuid+'">' + d.name + '</div>';
-				$('#alt_list').append(str);
-				$('#'+uuid).click(function () { onFileClicked(d.path, display); });
+				if (d.path == path)
+				{
+					slct += '<option id="'+uuid+'" selected>' + d.name + '</option>' + "\n";
+				}
+				else
+				{
+					slct += '<option id="'+uuid+'">' + d.name + '</option>' + "\n";
+				}
+				map[uuid] = { path: d.path, display: display };
+			}
+			slct += "</select>";
+
+			$('#alt_list').append(slct);
+			$('#alt_list_cbx').click(function ()
+			{
+				if (this.selectedIndex != -1)
+				{
+					let ddd = map[this[this.selectedIndex].id];
+					if (ddd.path != selectedPath)
+					{
+						onFileClicked(ddd.path, ddd.display);
+						return true;
+					}
+				}
+				return false;
+			});
+		}
+		else
+		{
+			for (let d of alt)
+			{
+				if (d.path == path)
+				{
+					let str = '<div class="alt_list_elem alt_list_elem_selected">' + d.name + '</div>';
+					$('#alt_list').append(str);
+				}
+				else
+				{
+					let uuid = generateUUID();
+					let str = '<div class="alt_list_elem" id="'+uuid+'">' + d.name + '</div>';
+					$('#alt_list').append(str);
+					$('#'+uuid).click(function () { onFileClicked(d.path, display); });
+				}
 			}
 		}
+
 	}
 
 
 	$('.tablebox').css('visibility', 'collapse');
 	$('.tablebox').css('display', 'none');
 	$('.logviewbox').css('visibility', 'visible');
-	$('.logviewbox').css('display', 'block');
+	$('.logviewbox').css('display', 'flex');
 
 	$('#logviewtitle_content').html(display);
 	$('#logviewcontent').html('loading...');
