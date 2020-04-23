@@ -10,23 +10,17 @@ function generateUUID()
 
 function setRowOpen(row, val)
 {
-	if (val)
+	$(row).toggleClass('row_open', val);
+
+	if ($(row).hasClass('row_dir_normal'))
 	{
-		$(row).addClass('row_open');
-		if ($(row).hasClass('row_dir'))
-		{
-			$(row).find('i.fas').removeClass('fa-folder');
-			$(row).find('i.fas').addClass('fa-folder-open');
-		}
+		$(row).find('i.fas').toggleClass('fa-folder', !val);
+		$(row).find('i.fas').toggleClass('fa-folder-open', val);
 	}
-	else
+	else if ($(row).hasClass('row_dir_pack'))
 	{
-		$(row).removeClass('row_open');
-		if ($(row).hasClass('row_dir'))
-		{
-			$(row).find('i.fas').removeClass('fa-folder-open');
-			$(row).find('i.fas').addClass('fa-folder');
-		}
+		$(row).find('i.fas').toggleClass('fa-box', !val);
+		$(row).find('i.fas').toggleClass('fa-box-open', val);
 	}
 }
 
@@ -363,18 +357,20 @@ function printTableEntries(entries, fpath, path, indent, order)
 			result += ('</tr>');
 			result += ("\n");
 		}
-		else if (entry.type == 'dir' || entry.type == 'compressed_dir')
+		else if (entry.type == 'dir' || entry.type == 'compressed_dir' || entry.type == 'combined_pack')
 		{
 			let eparent  = path.length == 0 ? '' : path[path.length-1];
 			let eid      = entry.id;
-			let cssclass = 'row_entry row_dir row_id_' + eid + ' ' + ((indent>0)?'row_collapsed' : '');
+			let cssclass = 'row_entry ' + ((entry.type == 'combined_pack') ? 'row_dir_pack' : 'row_dir_normal') + ' row_id_' + eid + ' ' + ((indent>0)?'row_collapsed' : '');
 			let epath    = '[' + path.concat([eid]).join(', ') + ']';
 			let onclick  = 'onDirClicked(' + entry.id + ', '  + epath + ');';
+
+			let fas = (entry.type == 'combined_pack') ? 'fa-box' : 'fa-folder';
 
 			result += ("<tr class='"+cssclass+"' onclick='"+onclick+"' data-epath='"+epath+"' data-eid='"+eid+"' data-eparent='"+eparent+"'>");
 			result += ('<td class="td_name">');
 			for (let i=0;i<indent;i++) result += ('<span class="row_name_indent"></span>');
-			result += ('<i class="fas fa-folder"></i>' + entry.name);
+			result += ('<i class="fas '+fas+'"></i>' + entry.name);
 			result += ('</td>');
 			result += ('<td>' + entry.fmt_size     + '</td>');
 			result += ('<td>' + entry.fmt_count    + '</td>');

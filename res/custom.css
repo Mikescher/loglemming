@@ -329,8 +329,8 @@ h1 a:hover { color: blue; text-decoration: underline; }
     background: #0A6;
 }
 
-.fa-folder { color:#BB7200; }
-.fa-folder-open { color:#664200 }
+.fa-folder,      .fa-box      { color:#BB7200; }
+.fa-folder-open, .fa-box-open { color:#664200 }
 
 th a { color:black; text-decoration: none; }
 th a:visited  { color:black; text-decoration: none; }
