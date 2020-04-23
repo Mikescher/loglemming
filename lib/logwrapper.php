@@ -17,6 +17,18 @@ function endsWith($haystack, $needle)
 
 function entry_cmp($a, $b)
 {
+	$ia = strval(array_search($a["type"], [ 'dir', 'file', 'compressed_file', 'symlink', 'compressed_dir' ]));
+	$ib = strval(array_search($b["type"], [ 'dir', 'file', 'compressed_file', 'symlink', 'compressed_dir' ]));
+
+	if ($ia === '0' || $ia === '1' || $ia === '2') $ia = '1';
+	if ($ib === '0' || $ib === '1' || $ib === '2') $ib = '1';
+
+	$r = strcmp($ia, $ib);
+	if ($r !== 0)
+	{
+		return $r;
+	}
+
 	return strcmp(strtolower($a["name"]), strtolower($b["name"]));
 }
 

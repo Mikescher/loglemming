@@ -133,3 +133,4 @@ $RECYCLE.BIN/
 
 *.patch
 
+/config.user.php

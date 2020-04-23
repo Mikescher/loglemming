@@ -1,11 +1,18 @@
 <?php
 
-function isPHPDebug() { return false; }
+function getConfig($key, $default)
+{
+	if (!file_exists(__DIR__ . '/config.user.php')) return $default;
 
-function isSLLDebug() { return false; }
+	return (require (__DIR__ . '/config.user.php'))[$key];
+}
 
-function getTailReloadSpeed() { return 3000; }
+function isPHPDebug() { return getConfig('debug_php', false); }
 
-function getSLLDebugFileRead() { return 'F:\Stash\aleph_test\A elementum molestie aenean litora primis.txt'; }
+function isSLLDebug() { return getConfig('debug_sll', false); }
 
-function getSLLDebugFileList() { return 'F:\temp\simpleloglist_list.txt'; }
+function getTailReloadSpeed() { return getConfig('tail_reload_speed', 3000); }
+
+function getSLLDebugFileRead() { return getConfig('debug_file_read', ''); }
+
+function getSLLDebugFileList() { return getConfig('debug_file_list', ''); }
