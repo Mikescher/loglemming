@@ -191,8 +191,8 @@ function processentries($entries, $dirpath, $owner_type, &$i)
 								'ctime'     => assoc_max($subentries, 'ctime', 0),
 								'mtime'     => assoc_max($subentries, 'mtime', 0),
 								'count'     => 1,
-								'fmt_mtime' => fmtTime(assoc_max($subentries, 'ctime', 0)),
-								'fmt_ctime' => fmtTime(assoc_max($subentries, 'mtime', 0)),
+								'fmt_ctime' => fmtTime(assoc_max($subentries, 'ctime', 0)),
+								'fmt_mtime' => fmtTime(assoc_max($subentries, 'mtime', 0)),
 								'fmt_size'  => fmtSize($sz),
 								'fmt_count' => "",
 							]
