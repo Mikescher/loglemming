@@ -133,7 +133,7 @@ function autoReload()
 		if (!autoReloadEnabled) { setTimeout(autoReload, RELOAD_SPEED); updateBtnReload(); return; }
 		if (sendPath != selectedPath) { setTimeout(autoReload, RELOAD_SPEED); updateBtnReload(); return; }
 
-		$('#logviewcontent').html(msg);
+		$('#logviewcontent').text(msg);
 
 		$('#btnReload').removeClass('btnReload_active');
 		$('#btnReload_spinner').removeClass('fa-spin');
@@ -183,7 +183,7 @@ function onFileClicked(path, display)
 	autoReloadEnabled = false;
 	updateBtnReload();
 
-	$('#alt_list').html('');
+	$('#alt_list').text('');
 	let alt = findAlt(DATA, path);
 	if (alt != null)
 	{
@@ -248,13 +248,13 @@ function onFileClicked(path, display)
 	$('.logviewbox').css('visibility', 'visible');
 	$('.logviewbox').css('display', 'flex');
 
-	$('#logviewtitle_content').html(display);
-	$('#logviewcontent').html('loading...');
+	$('#logviewtitle_content').text(display);
+	$('#logviewcontent').text('loading...');
 	$.ajax({
 		url: "ajax/getlog.php?path="+encodeURIComponent(path)
 	}).done(function(msg)
 	{
-		$('#logviewcontent').html(msg);
+		$('#logviewcontent').text(msg);
 	});
 }
 
@@ -265,8 +265,8 @@ function printTableEntries(entries, fpath, path, indent, order)
 	if (order == '+name')
 	{
 		entries = JSON.parse(JSON.stringify(entries));
-		entries.sort(function (a, b) 
-		{ 
+		entries.sort(function (a, b)
+		{
 			var _a = a.name.toUpperCase();
 			var _b = b.name.toUpperCase();
 			if (_a < _b) return -1;
@@ -277,8 +277,8 @@ function printTableEntries(entries, fpath, path, indent, order)
 	else if (order == '-name')
 	{
 		entries = JSON.parse(JSON.stringify(entries));
-		entries.sort(function (a, b) 
-		{ 
+		entries.sort(function (a, b)
+		{
 			var _a = a.name.toUpperCase();
 			var _b = b.name.toUpperCase();
 			if (_a < _b) return +1;
