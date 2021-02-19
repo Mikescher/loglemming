@@ -119,8 +119,8 @@ function getDiskData()
 		foreach ($df as $mounted) {
 			list($filesystem, $type, $total, $used, $free, $percent, $mount) = explode(',', $mounted);
 
-			if (strpos($type, 'tmpfs') !== false)
-				continue;
+			if (strpos($type, 'tmpfs')   !== false) continue;
+			if (strpos($type, 'overlay') !== false) continue;
 
 			if (!in_array($mount, $mounted_points)) {
 				$mounted_points[] = trim($mount);
