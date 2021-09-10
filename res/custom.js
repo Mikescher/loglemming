@@ -415,18 +415,18 @@ function getTableHTML(order)
 		result += "<th style='width: 100px'><a href='#' onclick='setOrder(\"+count\")'>Rotation</a></th>\n";
 
 	if (order == '+ctime')
-		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Created&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+		result += "<th style='min-width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Created&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
 	else if (order == '-ctime')
-		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"+ctime\")'>Created&nbsp;<i class='fas fa-caret-up'></i></a></th>\n";
+		result += "<th style='min-width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"+ctime\")'>Created&nbsp;<i class='fas fa-caret-up'></i></a></th>\n";
 	else
-		result += "<th style='width: 150px'><a href='#' onclick='setOrder(\"-ctime\")'>Created</a></th>\n";
+		result += "<th style='min-width: 150px'><a href='#' onclick='setOrder(\"-ctime\")'>Created</a></th>\n";
 
 	if (order == '+mtime')
-		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Modified&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
+		result += "<th style='min-width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"\")'>Modified&nbsp;<i class='fas fa-caret-down'></i></a></th>\n";
 	else if (order == '-mtime')
-		result += "<th style='width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"+mtime\")'>Modified&nbsp;<i class='fas fa-caret-up'></i></a></th>\n";
+		result += "<th style='min-width: 150px' class='th_sortcol'><a href='#' onclick='setOrder(\"+mtime\")'>Modified&nbsp;<i class='fas fa-caret-up'></i></a></th>\n";
 	else
-		result += "<th style='width: 150px'><a href='#' onclick='setOrder(\"-mtime\")'>Modified</a></th>\n";
+		result += "<th style='min-width: 150px'><a href='#' onclick='setOrder(\"-mtime\")'>Modified</a></th>\n";
 
 	result += "</tr>\n";
 	result += "</thead>\n";
