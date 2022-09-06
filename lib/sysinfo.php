@@ -125,14 +125,17 @@ function getDiskData()
 			if (!in_array($mount, $mounted_points)) {
 				$mounted_points[] = trim($mount);
 
-				$sumtotal += $total;
-				$sumused += $used;
-				$sumfree += $free;
+				$sumtotal += intval($total);
+				$sumused += intval($used);
+				$sumfree += intval($free);
 			}
 
 			$key++;
 		}
 	}
 
-	return fmtSize($sumfree * 1024) . ' / ' . fmtSize($sumtotal * 1024) . ' (' . round(100 * $sumfree/$sumtotal, 2) . '%)';
+	$sumpercused = (''.round(100 * $sumused/$sumtotal, 2));
+	$sumpercfree = (''.round(100 * $sumfree/$sumtotal, 2));
+
+	return [$sumused, $sumfree, $sumtotal, fmtSize($sumused * 1024) . ' / ' . fmtSize($sumtotal * 1024) . ' (' . $sumpercused . '%)', $sumpercused, $sumpercfree];
 }

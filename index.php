@@ -46,19 +46,29 @@ $entries = listEntries();
 
 		<div class="bodyrow_2 infocontainer">
 			<div class="infodiv">
-				<span>IP:</span><span><?php echo getIP(); ?></span>
+				<span>IP:</span>
+                <span><?php echo getIP(); ?></span>
 			</div>
 			<div class="infodiv">
-                <span>OS:</span><span><?php echo getOperatingSystem(); ?></span>
+                <span>OS:</span>
+                <span><?php echo getOperatingSystem(); ?></span>
 			</div>
 			<div class="infodiv">
-                <span>Uptime:</span><span><?php echo getUptime(); ?></span>
+                <span>Uptime:</span>
+                <span><?php echo getUptime(); ?></span>
 			</div>
 			<div class="infodiv">
-                <span>Boot Time:</span><span><?php echo getBootupTime(); ?></span>
+                <span>Boot Time:</span>
+                <span><?php echo getBootupTime(); ?></span>
 			</div>
 			<div class="infodiv">
-                <span>Free Space:</span><span><?php echo getDiskData(); ?></span>
+                <?php [$sumused, $sumfree, $sumtotal, $sumstr, $sumpercused, $sumpercfree] = getDiskData(); ?>
+                <span>Used Space:</span>
+                <span class="progress-span">
+                    <span class="progress" style="right: <?= $sumpercfree ?>%"></span>
+                    <span class="value"><?php echo $sumstr; ?></span>
+                    <span class="layout-value"><?php echo $sumstr; ?></span>
+                </span>
 			</div>
 		</div>
 

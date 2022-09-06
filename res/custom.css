@@ -12,11 +12,38 @@
     border: 1px dashed black;
 }
 
-.infodiv span:nth-child(2) {
+.infodiv > span:nth-child(2) {
     font-size: 24px;
     background: #DDD;
     border: 1px solid #CCC;
     padding: 0 4px;
+}
+
+.infodiv > .progress-span {
+    position: relative;
+}
+
+.infodiv > .progress-span > .progress {
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+
+    background: #FFA060;
+
+    z-index: 0;
+}
+
+.infodiv > .progress-span > .layout-value { opacity: 0; z-index: -999 }
+
+.infodiv > .progress-span > .value {
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 1;
 }
 
 #rootbox {
